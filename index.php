@@ -49,26 +49,64 @@ get_header(); ?>
                             <div class="separator"></div>
                             
                             <div class="row">
+                                
+
+                                <?php 
+
+
+
+                                // WP_Query arguments
+                                $args = array ( 
+                                    'post_type' => 'mladenci',
+                                    'order' => 'ASC',
+                                    'orderby' => 'id',
+                                    'posts_per_page'         => '2',
+                                );
+
+                                // The Query
+                                $query = new WP_Query( $args );
+
+                                // The Loop
+                                if ( $query->have_posts() ) {
+                                    while ( $query->have_posts() ) {
+                                        $query->the_post();
+                                       ?>
+
+
+                                <!--- LOOP -->
                                 <div class="one_half columns">
                                     <div class="frame10 circle">
-                                    <img src="images/content/avatar5.jpg" alt="" class=" " />
+                                        <?php 
+                                            $post_id = get_the_ID();
+                                            $thum_id = get_post_thumbnail_id($post_id);
+                                            $src = wp_get_attachment_image_src($thum_id);
+
+                                         ?>
+                                    <?php the_post_thumbnail('full', array('class' => 'neka_klasa') ); ?>
+                                   <!--  <img src="<?php echo $src[0]; ?>" > -->
                                     </div>
                                     <div class="indentleft">
-                                    <h3 class="title">About Miranda</h3>
-                                    <p>Etiam vitae urna nec ipsum gravida cursus dapibus et eros. Vivamus vel pellentesque nisl. Etiam eu sodales justo. Donec vitae faucibus tellus, at lacinia orci. Aliquam blandit tellus ut porttitor eleifend. Sed ornare tincidunt...</p>
-                                    <a href="#" class="button">Read more <span></span></a>
+                                    <h3 class="title"><?php the_title(); ?></h3>
+                                    <p><?php the_excerpt(); ?></p>
+                                    <a href="<?php the_permalink(); ?>" class="button">Read more <span></span></a>
                                     </div>
                                 </div>
-                                <div class="one_half columns">
-                                    <div class="frame10 circle">
-                                    <img src="images/content/avatar6.jpg" alt="" />
-                                    </div>
-                                    <div class="indentleft">
-                                    <h3 class="title">About Michael</h3>
-                                    <p>Etiam vitae urna nec ipsum gravida cursus dapibus et eros. Vivamus vel pellentesque nisl. Etiam eu sodales justo. Donec vitae faucibus tellus, at lacinia orci. Aliquam blandit tellus ut porttitor eleifend. Sed ornare tincidunt...</p>
-                                    <a href="#" class="button">Read more <span></span></a>
-                                    </div>
-                                </div>
+                                <!--- LOOP -->
+
+
+
+                                        <?php
+                                    }
+                                } else {
+                                    echo "No post found";
+                                }
+
+                                // Restore original Post Data
+                                wp_reset_postdata();
+
+
+                                 ?>
+
                             </div> 
                              
                             

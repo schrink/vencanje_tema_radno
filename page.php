@@ -12,23 +12,52 @@
 
 get_header(); ?>
 
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main" role="main">
 
-			<?php while ( have_posts() ) : the_post(); ?>
+		<?php while ( have_posts() ) : the_post(); ?>
+ <!-- BEFORE CONTENT -->
+		<div id="outerbeforecontent">
+            <div class="container">
+            	<div class="row">
+                <div id="beforecontent" class="twelve columns">
+                    <div id="pagetitle-container">
+                    	<h1 class="pagetitle"><?php the_title(); ?></h1>
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+        <!-- END BEFORE CONTENT -->
 
-				<?php get_template_part( 'content', 'page' ); ?>
+        
+        <!-- MAIN CONTENT -->
+        <div id="outermain">
+        	<div class="container">
+                <div class="row">
+                
+                    <section id="maincontent" class="nine columns positionleft">
 
-				<?php
-					// If comments are open or we have at least one comment, load up the comment template
-					if ( comments_open() || '0' != get_comments_number() )
-						comments_template();
-				?>
+                            <section class="content">
+								<?php the_content(); ?>
+                            </section>
 
-			<?php endwhile; // end of the loop. ?>
+                    </section>
+                    <?php endwhile; // end of the loop. ?>
 
-		</main><!-- #main -->
-	</div><!-- #primary -->
+                     <aside class="three columns">
+                     	<div class="sidebar">
+                    <?php dynamic_sidebar( 'sidebar-1' ); ?>
+                    	</div>
+					<!-- SIDEBAR -->
+					</aside>
+                </div>
+            </div>
+        </div>
+        <!-- END MAIN CONTENT -->
 
-<?php get_sidebar(); ?>
+        	
+
+
+
+
+
 <?php get_footer(); ?>
