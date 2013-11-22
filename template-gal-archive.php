@@ -2,10 +2,7 @@
 
 /**
  * The template for displaying Archive pages.
- *
- * Learn more: http://codex.wordpress.org/Template_Hierarchy
- *
- * @package vencanje
+ * Template name: Galerija
  */
 
 get_header(); ?>
@@ -20,10 +17,24 @@ get_header(); ?>
 
                             <section class="content">
 				
-				<?php query_posts('showposts=10'); ?>
+				<?php
+                    $args = array (
+                        'post_type' => 'post', 
+                        'category_name' => 'galerija',
+                    );
+
+                    // The Query
+                    $query = new WP_Query( $args );
+
+
+
+                ?>
 
 			<?php /* Start the Loop */ ?>
-			<?php while ( have_posts() ) : the_post(); ?>
+			<?php while ( $query->have_posts() ) {
+                            $query->the_post();
+
+        ?>
 				<?php  
 
 
@@ -50,7 +61,11 @@ get_header(); ?>
                         <div class="entry-utility">
                             Posted by <a href="<?php the_author_link(); ?>"><?php the_author(); ?></a>
                         </div>
-                       <p><?php the_excerpt(); ?></p>
+                       <p><?php 
+                       $izmenjen_content =  izbaci_tekst_posle_more(get_the_content());
+                       echo do_shortcode( $izmenjen_content) ;
+
+                        ?></p>
 						<a href="<?php the_permalink(); ?>" class="button">Read more <span></span></a>
                     </div>
                    
@@ -59,7 +74,7 @@ get_header(); ?>
 
 
 
-			<?php endwhile; ?>
+			<?php }?>
 
 			<div class="wp-pagenavi">
                                 	<div class="pages">Page 1 of 3</div><a class="page" href="#">1</a><span class="current"><span>2</span></span><a class="page" href="#">3</a>
